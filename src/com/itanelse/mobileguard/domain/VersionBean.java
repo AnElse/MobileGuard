@@ -9,6 +9,15 @@ public class VersionBean {
 	private int version;// 版本号
 	private String url;// 下载路径
 	private String desc;// 新版本描述
+	private String versionName;//版本名
+
+	public String getVersionName() {
+		return versionName;
+	}
+
+	public void setVersionName(String versionName) {
+		this.versionName = versionName;
+	}
 
 	public int getVersion() {
 		return version;
@@ -36,7 +45,7 @@ public class VersionBean {
 
 	@Override
 	public String toString() {
-		return "VersonData [version=" + version + ", url=" + url + ", desc="
-				+ desc + "]";
+		return "VersionBean [version=" + version + ", url=" + url + ", desc="
+				+ desc + ", versionName=" + versionName + "]";
 	}
 }
