@@ -2,6 +2,7 @@ package com.itanelse.mobileguard.activities;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.itanelse.mobileguard.R;
+import com.itanelse.mobileguard.utils.Md5Utils;
 import com.itanelse.mobileguard.utils.MyConstants;
 import com.itanelse.mobileguard.utils.SPTools;
 
@@ -52,8 +54,16 @@ public class MainActivity extends Activity {
 				// 判断点击位置
 				switch (position) {
 				case 0:// 手机防盗
-						// 自定义对话框
-					showSettingPasswordDialog();
+						// 先进行判断是否已经设置过密码,如果已经设置过密码,那么进入自定义登陆对话框
+					if (!TextUtils.isEmpty(SPTools.getString(
+							getApplicationContext(), MyConstants.PASSWORD, ""))) {
+						// 进入自定义登陆对话框
+							showEnterPasswordDialog();
+
+					} else {
+						// 否则,进入自定义设置密码对话框
+						showSettingPasswordDialog();
+					}
 
 					break;
 
@@ -62,6 +72,62 @@ public class MainActivity extends Activity {
 				}
 			}
 		});
+	}
+
+	/**
+	 * 自定义登陆对话框
+	 */
+	protected void showEnterPasswordDialog() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		View view = View.inflate(getApplicationContext(), R.layout.dialog_enter_password, null);
+		// 获取到输出的密码的edittext组件
+		final EditText et_password = (EditText) view
+				.findViewById(R.id.et_dialog_enter_password);
+		// 获取确认输入和取消输入的按钮
+		final Button bt_enter = (Button) view
+				.findViewById(R.id.bt_dialog_enter_sure);
+		final Button bt_cancel = (Button) view
+				.findViewById(R.id.bt_dialog_enter_cancel);
+		// 把自定义view设置到对话框
+		builder.setView(view);
+		// 设置点击确认输入按钮
+		bt_enter.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				String password = et_password.getText().toString().trim();
+System.out.println(password);
+				//把获取到的密码进行两次MD5加密
+				String mdpassword = Md5Utils.md5(Md5Utils.md5(password));
+System.out.println(mdpassword);				
+				// 进行判断
+				if (TextUtils.isEmpty(password)) {
+					Toast.makeText(getApplicationContext(), "密码不能为空", 0).show();
+					return;
+				} else {
+					//有密文,进行对比,如果相同,那么进入防盗界面
+					if (mdpassword.equals(SPTools.getString(getApplicationContext(), MyConstants.PASSWORD, ""))) {
+						Intent intent = new Intent(MainActivity.this,LostFindActivity.class);
+						startActivity(intent);
+						finish();
+					}else{
+						Toast.makeText(getApplicationContext(), "密码不正确",  0).show();
+					}
+					dialog.dismiss();
+				}
+			}
+		});
+		// 设置点击取消输入按钮
+		bt_cancel.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// 关闭对话框
+				dialog.dismiss();
+			}
+		});
+		dialog = builder.create();
+		dialog.show();
 	}
 
 	/**
@@ -98,9 +164,11 @@ public class MainActivity extends Activity {
 					Toast.makeText(getApplicationContext(), "密码不一致", 0).show();
 					return;
 				} else {
-					// 密码一致 ,保存密码并关闭对话框
+					// 密码一致,对密码进行MD5加密,加密两次(银行加密10次以上)
+					String mdpassword = Md5Utils.md5(Md5Utils.md5(passtwo));
+					// 保存密码并关闭对话框
 					SPTools.putString(getApplicationContext(),
-							MyConstants.PASSWORD, passone);
+							MyConstants.PASSWORD, mdpassword);
 					Toast.makeText(getApplicationContext(), "保存密码成功", 0).show();
 					dialog.dismiss();
 				}
