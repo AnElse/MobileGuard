@@ -85,7 +85,7 @@ public class SplashActivity extends Activity {
 				loadMain();// 进入主界面
 				break;
 			case SHOWUPDATADIALOG:// 显示更新版本的对话框
-				showUpdateDailog();
+				showUpdateDailog();//alt+left:返回该方法的调用者
 				break;
 			default:
 				break;
