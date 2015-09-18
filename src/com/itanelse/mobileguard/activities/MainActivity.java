@@ -15,7 +15,7 @@ public class MainActivity extends Activity {
 
 	private GridView gv_menu;// 主界面菜单
 	private int[] icons = { R.drawable.safe, R.drawable.callmsgsafe,
-			R.drawable.app, R.drawable.taskmanager, R.drawable.netmanager,
+			R.drawable.gv_list_selector_app, R.drawable.taskmanager, R.drawable.netmanager,
 			R.drawable.trojan, R.drawable.sysoptimize, R.drawable.atools,
 			R.drawable.settings };// 获取到菜单的图片资源
 	private String[] names = { "手机防盗", "通讯卫士", "软件管家", "进程管理", "流量统计", "病毒查杀",

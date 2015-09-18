@@ -15,18 +15,18 @@
     <com.itanelse.mobileguard.view.MyTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dip"
         android:ellipsize="marquee"
         android:singleLine="true"
         android:text="你是我的小啊小卫士,功能强大,怎么爱你都不嫌多,实在是居家旅行,出门探亲,蚊叮虫咬,必备良药..."
         android:textSize="16sp" />
 
     <GridView
-        android:verticalSpacing="5dip"
-        android:numColumns="3"
         android:id="@+id/gv_main_menu"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:listSelector="@drawable/gv_list_selector"
+        android:numColumns="3"
+        android:verticalSpacing="5dip" >
     </GridView>
 
 </LinearLayout>
