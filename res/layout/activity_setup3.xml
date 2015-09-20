@@ -16,10 +16,13 @@
         android:textSize="15sp" />
     
     <EditText 
+        android:inputType="phone"
+        android:id="@+id/et_setup3_safenumber"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
     <Button
+        android:id="@+id/bt_setup3_chooseSafenumber"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/gv_list_selector_bitmap"

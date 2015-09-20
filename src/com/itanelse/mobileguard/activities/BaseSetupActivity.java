@@ -25,8 +25,24 @@ public abstract class BaseSetupActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		initView();//初始化组件
 		initGesture();//初始化手势识别器,完成界面的滑动
+		initData();//初始化数据
+		initEvent();//初始化事件
 	}
 	
+	/**
+	 * 初始化事件
+	 */
+	public void initEvent() {
+		
+	}
+
+	/**
+	 * 初始化数据
+	 */
+	public void initData() {
+		
+	}
+
 	/**
 	 * 要想手势识别器生效，绑定onTouch事件
 	 */
@@ -136,6 +152,7 @@ public abstract class BaseSetupActivity extends Activity {
 	 * 进入到上一个页面的时间处理
 	 */
 	public void prev(View view){
+		//完成页面跳转和动画
 		prevActivity();
 		prevAnimation();
 	} 

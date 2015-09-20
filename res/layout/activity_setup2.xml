@@ -15,14 +15,28 @@
         android:textColor="#000000"
         android:textSize="15sp" />
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/gv_list_selector_bitmap"
-        android:drawableRight="@drawable/unlock"
-        android:gravity="center_vertical"
-        android:text="点击绑定/解绑SIM卡"
-        android:textColor="#000000" />
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+
+        <Button
+            android:id="@+id/bt_setup2_bindsim"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/gv_list_selector_bitmap"
+            android:gravity="center"
+            android:text="点击绑定/解绑SIM卡"
+            android:textColor="#000000" />
+        
+        <ImageView
+            android:id="@+id/iv_setup2_lock"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true" 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/unlock"
+            />
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -60,23 +74,23 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:src="@drawable/bind" />
-        
-          <Button
-            android:onClick="prev"
+
+        <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:background="@drawable/gv_list_selector_bitmap"
+            android:onClick="prev"
             android:text="上一步" />
 
         <Button
-            android:onClick="next"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:background="@drawable/gv_list_selector_bitmap"
+            android:onClick="next"
             android:text="下一步" />
     </RelativeLayout>
 
