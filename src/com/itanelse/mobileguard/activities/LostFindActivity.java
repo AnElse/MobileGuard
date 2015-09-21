@@ -3,12 +3,16 @@ package com.itanelse.mobileguard.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.TextView;
 
 import com.itanelse.mobileguard.R;
 import com.itanelse.mobileguard.utils.MyConstants;
 import com.itanelse.mobileguard.utils.SPTools;
 
 public class LostFindActivity extends Activity {
+	
+	private TextView tv__safenumber;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -23,6 +27,15 @@ public class LostFindActivity extends Activity {
 			startActivity(intent);
 			finish();
 		}
+		
+		initData();//初始化数据
+	}
+	
+	/**
+	 * 初始化数据:安全号码
+	 */
+	private void initData() {
+		tv__safenumber.setText("安全号码:"+ SPTools.getString(getApplicationContext(), MyConstants.SAFENUMBER, ""));
 	}
 
 	/**
@@ -30,5 +43,6 @@ public class LostFindActivity extends Activity {
 	 */
 	private void initView() {
 		setContentView(R.layout.activity_lostfind);
+		tv__safenumber = (TextView) findViewById(R.id.tv_lostfindactivity_safenumber);
 	}
 }
