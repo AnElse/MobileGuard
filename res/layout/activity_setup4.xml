@@ -9,11 +9,14 @@
         android:text="4.恭喜您,设置完成" />
 
     <CheckBox
+        android:id="@+id/cb_setup4_isprotected"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="打钩开启防盗保护" />
 
     <TextView
+        android:id="@+id/tv_setup4_protectIsOpen"
+        android:visibility="invisible"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="防盗保护已经开启"
@@ -75,7 +78,7 @@
             android:layout_alignParentRight="true"
             android:background="@drawable/gv_list_selector_bitmap"
             android:onClick="next"
-            android:text="下一步" />
+            android:text="设置完成" />
     </RelativeLayout>
 
 </LinearLayout>
