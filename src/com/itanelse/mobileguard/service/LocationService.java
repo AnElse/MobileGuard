@@ -65,17 +65,13 @@ public class LocationService extends Service {
 				double altitude = location.getAltitude();// 获取海拔高度
 				double longitude = location.getLongitude();// 获取经度
 				double latitude = location.getLatitude();// 获取纬度
+				float speed = location.getSpeed();//获取速度
 				sb_location.append("accuracy"+accuracy);
 				sb_location.append("altitude"+altitude);
 				sb_location.append("latitude"+latitude);
 				sb_location.append("longitude"+longitude);
+				sb_location.append("speed"+speed);
 
-				/**
-				 * provider 定位的方式 "gps:卫星" "基站定位:3g 4g" "wifi:通过绑定ip" minTime
-				 * 定位的时间差 10分钟 (0,0) minDistance 定位的距离差 10m
-				 * (0,0)两个都写0表示自动自能智能检测到位置的变化 listener 定位的监听回调
-				 */
-				lm.requestLocationUpdates("gps", 0, 0, listener);
 				// 发送该位置的信息到安全号码
 				String encrytSafenumber = SPTools.getString(
 						getApplicationContext(), MyConstants.SAFENUMBER, "");
@@ -86,7 +82,7 @@ public class LocationService extends Service {
 				sms.sendTextMessage(safenumber, "", sb_location + "", null,
 						null);
 				// 关闭gps
-				stopSelf();// 关闭自己
+				stopSelf();// 关闭自己,会调用onDestory()方法
 			}
 		};
 
@@ -102,7 +98,12 @@ public class LocationService extends Service {
 		// 动态获取手机的最佳定位方式
 		String bestProvider = lm.getBestProvider(criteria, true);
 		// 注册监听回调
-		lm.requestLocationUpdates(bestProvider, 0, 0, listener);
+		/**
+		 * provider 定位的方式 "gps:卫星" "基站定位:3g 4g" "wifi:通过绑定ip" minTime
+		 * 定位的时间差 10分钟 (0,0) minDistance 定位的距离差 10m
+		 * (0,0)两个都写0表示自动自能智能检测到位置的变化 listener 定位的监听回调
+		 */
+		lm.requestLocationUpdates("gps", 0, 0, listener);
 
 		super.onCreate();
 	}

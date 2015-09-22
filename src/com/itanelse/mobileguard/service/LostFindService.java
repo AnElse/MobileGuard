@@ -1,15 +1,19 @@
 package com.itanelse.mobileguard.service;
 
 import android.app.Service;
+import android.app.admin.DevicePolicyManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.media.MediaPlayer;
+import android.media.MediaPlayer.OnCompletionListener;
 import android.os.IBinder;
 import android.telephony.SmsMessage;
 
 public class LostFindService extends Service {
 	private SmsReceiver receiver;// 短信广播接收者
+	private boolean isPlay;//false 音乐播放的标记
 
 	@Override
 	public IBinder onBind(Intent intent) {
@@ -29,7 +33,7 @@ public class LostFindService extends Service {
 				String sender = smsMessage.getOriginatingAddress();
 				String mesbody = smsMessage.getMessageBody();
 				// System.out.println("sender:" + sender);// 获取到短信的发送者
-				// System.out.println("body:" + body);// 获取到短信的内
+				// System.out.println("body:" + body);// 获取到短信的内容
 				if ("#*gps*#".equals(mesbody)) {
 					// 获取当前的手机所在的位置,耗时的定位,把定位的功能放到服务中执行,在服务中进行耗时操作,并不是说服务中
 					// 可以进行耗时操作,服务还是运行在主线程中的,所以在进行耗时操作时,还是写在子线程中
@@ -37,6 +41,45 @@ public class LostFindService extends Service {
 							LocationService.class);
 					startService(locationservice);// 启动定位的服务
 					abortBroadcast();// 接收到后停止广播,因为很耗电
+				} else if ("#*lockscreen*#".equals(mesbody)) {
+					// 远程锁屏
+					// 获取设备管理器
+					DevicePolicyManager dpm = (DevicePolicyManager) getSystemService(DEVICE_POLICY_SERVICE);
+					// ComponentName who = new ComponentName(context,
+					// MyDeviceAdminReceiver.class);
+					// 设置密码
+					dpm.resetPassword("123", 0);
+					// 一键锁屏
+					dpm.lockNow();
+					abortBroadcast();// 终止广播
+				} else if ("#*wipedata*#".equals(mesbody)) {
+					// 远程清除数据
+					// 获取设备管理器
+					DevicePolicyManager dpm = (DevicePolicyManager) getSystemService(DEVICE_POLICY_SERVICE);
+					// 清除sd数据
+					dpm.wipeData(DevicePolicyManager.WIPE_EXTERNAL_STORAGE);
+					abortBroadcast();// 终止广播
+				} else if ("#*music*#".equals(mesbody)) {
+					abortBroadcast();// 终止广播
+					// 音乐报警
+					MediaPlayer mp = MediaPlayer.create(
+							getApplicationContext(),
+							com.itanelse.mobileguard.R.raw.qqqg);
+					// 设置左右声道声音为最大值
+					mp.setVolume(1, 1);
+					if (isPlay) {
+						return;
+					}
+						mp.start();// 开始播放
+					// 监听音乐是否播放完成
+					mp.setOnCompletionListener(new OnCompletionListener() {
+
+						@Override
+						public void onCompletion(MediaPlayer mp) {
+							isPlay = false;
+						}
+					});
+					isPlay = true;
 				}
 			}
 		}
