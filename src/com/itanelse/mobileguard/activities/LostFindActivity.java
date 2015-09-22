@@ -3,6 +3,7 @@ package com.itanelse.mobileguard.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import com.itanelse.mobileguard.R;
@@ -29,6 +30,16 @@ public class LostFindActivity extends Activity {
 		}
 		
 		initData();//初始化数据
+	}
+	
+	/**
+	 * 点击重新进入设置向导界面
+	 * @param view
+	 */
+	public void entersetup1(View view){
+		Intent intent = new Intent(this,Setup1Activity.class);
+		startActivity(intent);
+		finish();
 	}
 	
 	/**

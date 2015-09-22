@@ -26,11 +26,14 @@
         android:textSize="20sp" />
 
     <TextView
+        android:clickable="true"
+        android:onClick="entersetup1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:text="重新进入设置向导界面"
-        android:textColor="#00ff00"
+        android:textColor="#0000ff"
+        android:layout_marginBottom="10dip"
         android:textSize="20sp" />
 
        <TextView

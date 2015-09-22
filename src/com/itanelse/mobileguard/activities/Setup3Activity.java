@@ -1,5 +1,7 @@
 package com.itanelse.mobileguard.activities;
 
+import org.apache.http.util.EncodingUtils;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -10,6 +12,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.itanelse.mobileguard.R;
+import com.itanelse.mobileguard.unittest.EncryptUtils;
 import com.itanelse.mobileguard.utils.Md5Utils;
 import com.itanelse.mobileguard.utils.MyConstants;
 import com.itanelse.mobileguard.utils.SPTools;
@@ -38,8 +41,11 @@ public class Setup3Activity extends BaseSetupActivity {
 	 */
 	@Override
 	public void initData() {
-		et_safenumber.setText(SPTools.getString(getApplicationContext(),
+		//保持安全号码在文本输入框
+		//对密文进行解密后再取出保存在界面的安全号码输入框
+		String decryptSafenumber = EncryptUtils.decryption(MyConstants.SEED, SPTools.getString(getApplicationContext(),
 				MyConstants.SAFENUMBER, ""));
+		et_safenumber.setText(decryptSafenumber);
 		super.initData();
 	}
 
@@ -51,10 +57,12 @@ public class Setup3Activity extends BaseSetupActivity {
 			Toast.makeText(getApplicationContext(), "安全号码不能为空", 0).show();
 			return;
 		} else {
-			// 进来,说明有安全号码,那么对安全号码进行加密,进行保存
-			// String mdSafenumber = Md5Utils.md5(Md5Utils.md5(safenumber))
+			// 进来,说明有安全号码,那么对安全号码进行加密,进行保存,不能使用MD5加密,因为是不可逆的.所以,这里我们
+			//自己设计一种加密算法
+			// String mdSafenumber = Md5Utils.md5(Md5Utils.md5(safenumber));//不可逆的
+			String encrptSafenumber = EncryptUtils.encrption(MyConstants.SEED, safenumber);
 			SPTools.putString(getApplicationContext(), MyConstants.SAFENUMBER,
-					safenumber);
+					encrptSafenumber);
 		}
 		super.next(view);// 调用父类功能完成界面的切换.
 	}
