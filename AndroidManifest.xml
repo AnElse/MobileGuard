@@ -21,6 +21,8 @@
     <uses-permission android:name="android.permission.WRITE_CONTACTS" />
     <uses-permission android:name="android.permission.READ_SMS"/>
     <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+    <uses-permission android:name="android.permission.SEND_SMS"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
     <application
         android:allowBackup="true"
@@ -53,7 +55,11 @@
         </activity>
         <activity android:name="com.itanelse.mobileguard.activities.FriendsActivity" >
         </activity>
-
+		<receiver android:name="com.itanelse.mobileguard.receiver.BootReceiver">
+		    <intent-filter >
+		        <action android:name="android.intent.action.BOOT_COMPLETED"/>
+		    </intent-filter>
+		</receiver>
         <service android:name="com.itanelse.mobileguard.service.LostFindService" >
         </service>
     </application>

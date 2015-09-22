@@ -39,7 +39,7 @@ public class LostFindService extends Service {
 	 */
 	@Override
 	public void onCreate() {
-		System.out.println("服务创建了");
+		// System.out.println("服务创建了");
 		receiver = new SmsReceiver();// 买一个收音机
 		IntentFilter filter = new IntentFilter();
 		filter.addAction("android.provider.Telephony.SMS_RECEIVED");// 调频道

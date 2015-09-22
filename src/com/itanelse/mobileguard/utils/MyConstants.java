@@ -7,4 +7,5 @@ public interface MyConstants {
 	String SIM= "sim";//保存sim卡的信息
 	String SAFENUMBER = "safenumber";//安全号码
 	int SEED = 120;//进行加密的种子,可以写成别的名称,迷惑对方如:int MUSIC = 120;
+	String LOSTFIND = "lostfind";//防盗界面
 }

@@ -4,9 +4,9 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.Toast;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.itanelse.mobileguard.R;
 import com.itanelse.mobileguard.service.LostFindService;
@@ -64,6 +64,8 @@ public class Setup4Activity extends BaseSetupActivity {
 							startService(lostFindService);
 							// System.out.println("勾选了,开启服务");
 							tv_protectIsOpen.setVisibility(View.VISIBLE);// 显示防盗保护勾选后的提示
+							//保存勾选的状态
+							SPTools.putBoolean(getApplicationContext(), MyConstants.LOSTFIND, true);
 						} else {
 							// 继续去掉勾选,那么停止服务
 							Intent lostFindService = new Intent(
@@ -71,6 +73,8 @@ public class Setup4Activity extends BaseSetupActivity {
 							stopService(lostFindService);
 							tv_protectIsOpen.setVisibility(View.INVISIBLE);
 							// System.out.println("停止勾选,停止服务");
+							//取消勾选的状态
+							SPTools.putBoolean(getApplicationContext(), MyConstants.LOSTFIND, false);
 						}
 					}
 				});
