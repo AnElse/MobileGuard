@@ -6,6 +6,6 @@ import android.test.AndroidTestCase;
 
 public class TestServiceRunning extends AndroidTestCase {
 	public void isRunningService(){
-		ServiceRunningUtils.ServiceIsRunning(getContext(), "com.itanelse.mobileguard.service.LostFindService");
+		ServiceRunningUtils.isServiceRunning(getContext(), "com.itanelse.mobileguard.service.LostFindService");
 	}
 }

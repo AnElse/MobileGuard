@@ -31,7 +31,7 @@ public class BootReceiver extends BroadcastReceiver {
 				.getSystemService(Context.TELEPHONY_SERVICE);
 		String simSerialNumber = tm.getSimSerialNumber();
 		// 进行对比,如果发生变化,那么就发出报警短信,加1只为了模拟sim卡不一样,因为再模拟器中是一样的
-		if (!oldsim.equals(simSerialNumber + "1")) {
+		if (!oldsim.equals(simSerialNumber)) {
 			// 说明不一样
 			SmsManager sms = SmsManager.getDefault();
 			// 安全号码肯定是有的,因为只有绑定安全号码才能进行防盗界面

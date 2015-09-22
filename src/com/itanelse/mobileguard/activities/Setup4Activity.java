@@ -36,7 +36,7 @@ public class Setup4Activity extends BaseSetupActivity {
 	 */
 	@Override
 	public void initData() {
-		if (ServiceRunningUtils.ServiceIsRunning(getApplicationContext(),
+		if (ServiceRunningUtils.isServiceRunning(getApplicationContext(),
 				"com.itanelse.mobileguard.service.LostFindService")) {
 			// 服务开启
 			cb_isprotected.setChecked(true);// 初始化复选框的状态
@@ -44,6 +44,7 @@ public class Setup4Activity extends BaseSetupActivity {
 			cb_isprotected.setChecked(false);// 初始化复选框的状态
 		}
 		super.initData();
+		
 	}
 
 	/**
