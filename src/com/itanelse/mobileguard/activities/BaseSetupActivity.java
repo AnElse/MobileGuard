@@ -57,6 +57,7 @@ public abstract class BaseSetupActivity extends Activity {
 	/**
 	 * 初始化手势识别器,完成界面的滑动
 	 */
+	@SuppressWarnings("deprecation")
 	private void initGesture() {
 		// 初始化手势识别器,要想手势识别器生效，绑定onTouch事件
 		gd = new GestureDetector(new OnGestureListener() {
@@ -68,7 +69,7 @@ public abstract class BaseSetupActivity extends Activity {
 			@Override
 			public boolean onFling(MotionEvent e1, MotionEvent e2,
 					float velocityX, float velocityY) {
-				if (velocityX > 100) {// x轴方向的速度是否满足横向滑动的条件
+				if (velocityX > 200) {// x轴方向的速度是否满足横向滑动的条件
 										// pix/s,速度大于200像素每秒就可以完成滑动
 					float dx = e2.getX() - e1.getX();
 					if (Math.abs(dx) < 100) {// 如果间距不符合直接无效

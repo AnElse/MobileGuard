@@ -33,6 +33,7 @@ public class MainActivity extends Activity {
 	private String[] names = { "手机防盗", "通讯卫士", "软件管家", "进程管理", "流量统计", "病毒查杀",
 			"缓存清理", "高级工具", "设置中心" };// 获取到菜单的名称
 	private AlertDialog dialog;// 自定义的进入防盗中心的对话框
+	MyAdapter myAdapter;//适配器
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +59,7 @@ public class MainActivity extends Activity {
 					if (!TextUtils.isEmpty(SPTools.getString(
 							getApplicationContext(), MyConstants.PASSWORD, ""))) {
 						// 进入自定义登陆对话框
-							showEnterPasswordDialog();
+						showEnterPasswordDialog();
 
 					} else {
 						// 否则,进入自定义设置密码对话框
@@ -73,13 +74,26 @@ public class MainActivity extends Activity {
 			}
 		});
 	}
+	
+	/**
+	 * 通知重新取数据,放在onResume,是因为外圈activity在onstop---onrestart()---onstart()---onresume().
+	 * 和内圈onpause()-----onResume()..在界面重新显示时都会启动onResume()方法.内圈是另一个活动覆盖后又快速回来显示
+	 * 本活动时会调用.所以要防止在这种情形,所以写在onResume()方法里.
+	 * 当活动重新回来时,去通知GridView重新去取数据
+	 */
+	@Override
+	protected void onResume() {
+		super.onResume();
+		myAdapter.notifyDataSetChanged();
+	}
 
 	/**
 	 * 自定义登陆对话框
 	 */
 	protected void showEnterPasswordDialog() {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		View view = View.inflate(getApplicationContext(), R.layout.dialog_enter_password, null);
+		View view = View.inflate(getApplicationContext(),
+				R.layout.dialog_enter_password, null);
 		// 获取到输出的密码的edittext组件
 		final EditText et_password = (EditText) view
 				.findViewById(R.id.et_dialog_enter_password);
@@ -96,22 +110,23 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				String password = et_password.getText().toString().trim();
-System.out.println(password);
-				//把获取到的密码进行两次MD5加密
+				// 把获取到的密码进行两次MD5加密
 				String mdpassword = Md5Utils.md5(Md5Utils.md5(password));
-System.out.println(mdpassword);				
 				// 进行判断
 				if (TextUtils.isEmpty(password)) {
 					Toast.makeText(getApplicationContext(), "密码不能为空", 0).show();
 					return;
 				} else {
-					//有密文,进行对比,如果相同,那么进入防盗界面
-					if (mdpassword.equals(SPTools.getString(getApplicationContext(), MyConstants.PASSWORD, ""))) {
-						Intent intent = new Intent(MainActivity.this,LostFindActivity.class);
+					// 有密文,进行对比,如果相同,那么进入防盗界面
+					if (mdpassword.equals(SPTools.getString(
+							getApplicationContext(), MyConstants.PASSWORD, ""))) {
+						Intent intent = new Intent(MainActivity.this,
+								LostFindActivity.class);
 						startActivity(intent);
-						finish();
-					}else{
-						Toast.makeText(getApplicationContext(), "密码不正确",  0).show();
+						// finish();这里不能关闭自己,否则在防盗界面直接退出就退出程序了.
+					} else {
+						Toast.makeText(getApplicationContext(), "密码不正确", 0)
+								.show();
 					}
 					dialog.dismiss();
 				}
@@ -192,7 +207,8 @@ System.out.println(mdpassword);
 	 */
 	private void initData() {
 		// 设置Gridview适配器数据
-		gv_menu.setAdapter(new MyAdapter());
+		myAdapter = new MyAdapter();
+		gv_menu.setAdapter(myAdapter);
 	}
 
 	/**
@@ -220,6 +236,13 @@ System.out.println(mdpassword);
 			// 设置图片和名称
 			gv_icon.setImageResource(icons[position]);
 			gv_name.setText(names[position]);
+
+			String lostfindname = SPTools.getString(getApplicationContext(),
+					MyConstants.NAME, "");
+			if (position == 0 || TextUtils.isEmpty(lostfindname)) {
+				gv_name.setText(lostfindname);
+			}
+
 			return view;
 		}
 

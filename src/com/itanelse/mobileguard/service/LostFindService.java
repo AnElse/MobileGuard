@@ -3,6 +3,7 @@ package com.itanelse.mobileguard.service;
 import android.app.Service;
 import android.app.admin.DevicePolicyManager;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -11,9 +12,11 @@ import android.media.MediaPlayer.OnCompletionListener;
 import android.os.IBinder;
 import android.telephony.SmsMessage;
 
+import com.itanelse.mobileguard.receiver.MyDeviceAdminReceiver;
+
 public class LostFindService extends Service {
 	private SmsReceiver receiver;// 短信广播接收者
-	private boolean isPlay;//false 音乐播放的标记
+	private boolean isPlay;// false 音乐播放的标记
 
 	@Override
 	public IBinder onBind(Intent intent) {
@@ -42,16 +45,21 @@ public class LostFindService extends Service {
 					startService(locationservice);// 启动定位的服务
 					abortBroadcast();// 接收到后停止广播,因为很耗电
 				} else if ("#*lockscreen*#".equals(mesbody)) {
+					abortBroadcast();// 终止广播
 					// 远程锁屏
 					// 获取设备管理器
 					DevicePolicyManager dpm = (DevicePolicyManager) getSystemService(DEVICE_POLICY_SERVICE);
-					// ComponentName who = new ComponentName(context,
-					// MyDeviceAdminReceiver.class);
-					// 设置密码
-					dpm.resetPassword("123", 0);
-					// 一键锁屏
-					dpm.lockNow();
-					abortBroadcast();// 终止广播
+					ComponentName who = new ComponentName(context,
+							MyDeviceAdminReceiver.class);
+					if (dpm.isAdminActive(who)) {
+						// 设置密码
+						dpm.resetPassword("123", 0);
+						// 一键锁屏
+						dpm.lockNow();
+					}else{
+						return;
+					}
+					
 				} else if ("#*wipedata*#".equals(mesbody)) {
 					// 远程清除数据
 					// 获取设备管理器
@@ -70,7 +78,7 @@ public class LostFindService extends Service {
 					if (isPlay) {
 						return;
 					}
-						mp.start();// 开始播放
+					mp.start();// 开始播放
 					// 监听音乐是否播放完成
 					mp.setOnCompletionListener(new OnCompletionListener() {
 
