@@ -13,7 +13,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.telephony.SmsManager;
 
-import com.itanelse.mobileguard.unittest.EncryptUtils;
+import com.itanelse.mobileguard.utils.EncryptUtils;
 import com.itanelse.mobileguard.utils.MyConstants;
 import com.itanelse.mobileguard.utils.SPTools;
 
@@ -65,12 +65,12 @@ public class LocationService extends Service {
 				double altitude = location.getAltitude();// 获取海拔高度
 				double longitude = location.getLongitude();// 获取经度
 				double latitude = location.getLatitude();// 获取纬度
-				float speed = location.getSpeed();//获取速度
-				sb_location.append("accuracy"+accuracy);
-				sb_location.append("altitude"+altitude);
-				sb_location.append("latitude"+latitude);
-				sb_location.append("longitude"+longitude);
-				sb_location.append("speed"+speed);
+				float speed = location.getSpeed();// 获取速度
+				sb_location.append("accuracy" + accuracy);
+				sb_location.append("altitude" + altitude);
+				sb_location.append("latitude" + latitude);
+				sb_location.append("longitude" + longitude);
+				sb_location.append("speed" + speed);
 
 				// 发送该位置的信息到安全号码
 				String encrytSafenumber = SPTools.getString(
@@ -99,9 +99,9 @@ public class LocationService extends Service {
 		String bestProvider = lm.getBestProvider(criteria, true);
 		// 注册监听回调
 		/**
-		 * provider 定位的方式 "gps:卫星" "基站定位:3g 4g" "wifi:通过绑定ip" minTime
-		 * 定位的时间差 10分钟 (0,0) minDistance 定位的距离差 10m
-		 * (0,0)两个都写0表示自动自能智能检测到位置的变化 listener 定位的监听回调
+		 * provider 定位的方式 "gps:卫星" "基站定位:3g 4g" "wifi:通过绑定ip" minTime 定位的时间差
+		 * 10分钟 (0,0) minDistance 定位的距离差 10m (0,0)两个都写0表示自动自能智能检测到位置的变化 listener
+		 * 定位的监听回调
 		 */
 		lm.requestLocationUpdates("gps", 0, 0, listener);
 

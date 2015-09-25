@@ -7,7 +7,7 @@ import android.telephony.SmsManager;
 import android.telephony.TelephonyManager;
 
 import com.itanelse.mobileguard.service.LostFindService;
-import com.itanelse.mobileguard.unittest.EncryptUtils;
+import com.itanelse.mobileguard.utils.EncryptUtils;
 import com.itanelse.mobileguard.utils.MyConstants;
 import com.itanelse.mobileguard.utils.SPTools;
 

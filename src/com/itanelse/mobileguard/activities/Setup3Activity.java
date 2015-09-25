@@ -1,9 +1,6 @@
 package com.itanelse.mobileguard.activities;
 
-import org.apache.http.util.EncodingUtils;
-
 import android.content.Intent;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -12,8 +9,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.itanelse.mobileguard.R;
-import com.itanelse.mobileguard.unittest.EncryptUtils;
-import com.itanelse.mobileguard.utils.Md5Utils;
+import com.itanelse.mobileguard.utils.EncryptUtils;
 import com.itanelse.mobileguard.utils.MyConstants;
 import com.itanelse.mobileguard.utils.SPTools;
 

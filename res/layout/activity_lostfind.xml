@@ -1,79 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:layout_height="match_parent" >
 
-    <TextView
-        style="@style/tv_title"
-        android:text="手机防盗界面" />
-
-    <TextView
-        android:id="@+id/tv_lostfindactivity_safenumber"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="安全号码"
-        android:textColor="#000000"
-        android:textSize="20sp" />
+        android:orientation="vertical" >
 
-    <TextView
+        <TextView
+            style="@style/tv_title"
+            android:text="手机防盗界面" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableRight="@drawable/lock"
+            android:gravity="center_vertical"
+            android:text="防盗保护是否开启"
+            android:textColor="#000000"
+            android:textSize="20sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dip"
+            android:clickable="true"
+            android:gravity="center_vertical"
+            android:onClick="entersetup1"
+            android:text="重新进入设置向导界面"
+            android:textColor="#0000ff"
+            android:textSize="20sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@android:drawable/btn_star_big_off"
+            android:gravity="center_vertical"
+            android:text="SIM卡变更报警:"
+            android:textColor="#000000" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@android:drawable/btn_star_big_off"
+            android:gravity="center_vertical"
+            android:text="GPS追踪:#*gps*#"
+            android:textColor="#000000" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@android:drawable/btn_star_big_off"
+            android:gravity="center_vertical"
+            android:text="远程锁屏:#*lockscreen*#"
+            android:textColor="#000000" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@android:drawable/btn_star_big_off"
+            android:gravity="center_vertical"
+            android:text="远程清除数据:#*wipedata*#"
+            android:textColor="#000000" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@android:drawable/btn_star_big_off"
+            android:gravity="center_vertical"
+            android:text="音乐报警:#*music*#"
+            android:textColor="#000000" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/ll_lostfind_menu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:drawableRight="@drawable/lock"
-        android:gravity="center_vertical"
-        android:text="防盗保护是否开启"
-        android:textColor="#000000"
-        android:textSize="20sp" />
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal" >
 
-    <TextView
-        android:clickable="true"
-        android:onClick="entersetup1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:text="重新进入设置向导界面"
-        android:textColor="#0000ff"
-        android:layout_marginBottom="10dip"
-        android:textSize="20sp" />
+        <Button
+            android:id="@+id/bt_lostfind_rename"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/gv_list_selector_bitmap"
+            android:text="修改防盗功能名字" />
 
-       <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:drawableLeft="@android:drawable/btn_star_big_off"
-        android:gravity="center_vertical"
-        android:text="SIM卡变更报警:"
-        android:textColor="#000000" />
+        <Button
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/gv_list_selector_bitmap"
+            android:text="修改xxxxxx" />
+    </LinearLayout>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:drawableLeft="@android:drawable/btn_star_big_off"
-        android:gravity="center_vertical"
-        android:text="GPS追踪:#*gps*#"
-        android:textColor="#000000" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:drawableLeft="@android:drawable/btn_star_big_off"
-        android:gravity="center_vertical"
-        android:text="远程锁屏:#*lockscreen*#"
-        android:textColor="#000000" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:drawableLeft="@android:drawable/btn_star_big_off"
-        android:gravity="center_vertical"
-        android:text="远程清除数据:#*wipedata*#"
-        android:textColor="#000000" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:drawableLeft="@android:drawable/btn_star_big_off"
-        android:gravity="center_vertical"
-        android:text="音乐报警:#*music*#"
-        android:textColor="#000000" />
-
-</LinearLayout>
+</RelativeLayout>

@@ -1,4 +1,4 @@
-package com.itanelse.mobileguard.unittest;
+package com.itanelse.mobileguard.utils;
 
 /**
  * 加密解密算法:利用的是一个数按位与或自己两次,得到的还是自己

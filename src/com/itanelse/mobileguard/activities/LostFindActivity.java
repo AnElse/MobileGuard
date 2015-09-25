@@ -5,24 +5,30 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.itanelse.mobileguard.R;
-import com.itanelse.mobileguard.unittest.EncryptUtils;
+import com.itanelse.mobileguard.utils.EncryptUtils;
+import com.itanelse.mobileguard.utils.LogUtils;
 import com.itanelse.mobileguard.utils.MyConstants;
 import com.itanelse.mobileguard.utils.SPTools;
 
 public class LostFindActivity extends Activity {
 
 	private TextView tv__safenumber;
-	AlertDialog dialog;//修改防盗功能名称的对话框
+	AlertDialog dialog;// 修改防盗功能名称的对话框
+	private LinearLayout ll_lostfind_menu;//自定义菜单
+	private boolean flag = false;//是否显示自定义菜单
+	private Button rename;//自定义菜单中重新设置名字按钮
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +63,6 @@ public class LostFindActivity extends Activity {
 	 * 初始化界面组件
 	 */
 	private void initView() {
-		tv__safenumber = (TextView) findViewById(R.id.tv_lostfindactivity_safenumber);
 		setContentView(R.layout.activity_lostfind);
 	}
 
@@ -74,8 +79,30 @@ public class LostFindActivity extends Activity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.main, menu);
+		// 用自定义的菜单来显示,所以注释掉这个,编写自己的自定义菜单
+		// getMenuInflater().inflate(R.menu.main, menu);
 		return true;
+	}
+
+	/**
+	 * 检查自己的手机按钮
+	 */
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		 
+		// 如果点击的是菜单按钮
+		if (keyCode == KeyEvent.KEYCODE_MENU) {
+			LogUtils.v("LostFindActivity", "menu被点击了");
+			ll_lostfind_menu = (LinearLayout) findViewById(R.id.ll_lostfind_menu);
+			rename = (Button) findViewById(R.id.bt_lostfind_rename);
+			if (flag) {
+				ll_lostfind_menu.setVisibility(View.GONE);
+			}else{
+				ll_lostfind_menu.setVisibility(View.VISIBLE);
+			}
+			flag = !flag;
+		}
+		return super.onKeyDown(keyCode, event);
 	}
 
 	/**
@@ -121,13 +148,13 @@ public class LostFindActivity extends Activity {
 							MyConstants.NAME, et_name.getText().toString()
 									.trim());
 					dialog.dismiss();
-				}else{
+				} else {
 					Toast.makeText(getApplicationContext(), "名称不能为空", 0).show();
 				}
 			}
 		});
 		cancel.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				dialog.dismiss();
