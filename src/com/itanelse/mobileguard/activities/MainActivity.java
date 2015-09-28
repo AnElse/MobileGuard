@@ -30,8 +30,8 @@ public class MainActivity extends Activity {
 			R.drawable.gv_list_selector_app, R.drawable.taskmanager,
 			R.drawable.netmanager, R.drawable.trojan, R.drawable.sysoptimize,
 			R.drawable.atools, R.drawable.settings };// 获取到菜单的图片资源
-	private String[] names = { "手机防盗", "通讯卫士", "软件管家", "进程管理", "流量统计", "病毒查杀",
-			"缓存清理", "高级工具", "设置中心" };// 获取到菜单的名称
+	private String[] names = {"手机防盗", "通讯卫士", "软件管家", "进程管理", "流量统计", "病毒查杀",
+			"缓存清理", "高级工具", "设置中心"};// 获取到菜单的名称
 	private AlertDialog dialog;// 自定义的进入防盗中心的对话框
 	MyAdapter myAdapter;//适配器
 
@@ -237,10 +237,12 @@ public class MainActivity extends Activity {
 			gv_icon.setImageResource(icons[position]);
 			gv_name.setText(names[position]);
 
-			String lostfindname = SPTools.getString(getApplicationContext(),
-					MyConstants.NAME, "");
-			if (position == 0 || TextUtils.isEmpty(lostfindname)) {
-				gv_name.setText(lostfindname);
+			if (position == 0) {//只判断手机防盗的位置
+				//判断是否存在新的手机防盗名
+				if (!TextUtils.isEmpty(SPTools.getString(getApplicationContext(), MyConstants.NAME, ""))) {
+					//有新的手机防盗名
+					gv_name.setText(SPTools.getString(getApplicationContext(), MyConstants.NAME, ""));
+				}
 			}
 
 			return view;
