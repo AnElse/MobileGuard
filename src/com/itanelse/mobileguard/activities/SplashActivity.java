@@ -39,6 +39,8 @@ import android.widget.Toast;
 
 import com.itanelse.mobileguard.R;
 import com.itanelse.mobileguard.domain.VersionBean;
+import com.itanelse.mobileguard.utils.MyConstants;
+import com.itanelse.mobileguard.utils.SPTools;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.ResponseInfo;
@@ -98,9 +100,21 @@ public class SplashActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		initView();// 初始化界面中的组件
-		initAnimation();// 初始化动画
 		initData();// 初始化数据
-		checkVersion();// 检查版本
+		initAnimation();// 初始化动画
+		
+		if (SPTools.getBoolean(getApplicationContext(), MyConstants.AUTOUPDATE, false)) {
+			//true, 那么进行版本的更新
+			checkVersion();// 检查版本
+		}else{
+			//直接进入主界面
+			new Thread(){
+				public void run() {
+					SystemClock.sleep(3000);
+					mhandler.obtainMessage(LOAD_MAIN).sendToTarget();
+				};
+			}.start();
+		}
 	}
 
 	/**
@@ -241,7 +255,7 @@ public class SplashActivity extends Activity {
 				// 开始访问网络的时间
 				startTime = System.currentTimeMillis();
 				try {
-					String path = "http://192.168.1.101:8080/MobileSafeGuard.json";
+					String path = "http://192.168.1.104:8080/MobileSafeGuard.json";
 					URL url = new URL(path);
 					conn = (HttpURLConnection) url.openConnection();
 					// 设置连接的超时时间和读取数据的超时时间

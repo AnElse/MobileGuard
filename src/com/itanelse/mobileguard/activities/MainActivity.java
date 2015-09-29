@@ -30,10 +30,10 @@ public class MainActivity extends Activity {
 			R.drawable.gv_list_selector_app, R.drawable.taskmanager,
 			R.drawable.netmanager, R.drawable.trojan, R.drawable.sysoptimize,
 			R.drawable.atools, R.drawable.settings };// 获取到菜单的图片资源
-	private String[] names = {"手机防盗", "通讯卫士", "软件管家", "进程管理", "流量统计", "病毒查杀",
-			"缓存清理", "高级工具", "设置中心"};// 获取到菜单的名称
+	private String[] names = { "手机防盗", "通讯卫士", "软件管家", "进程管理", "流量统计", "病毒查杀",
+			"缓存清理", "高级工具", "设置中心" };// 获取到菜单的名称
 	private AlertDialog dialog;// 自定义的进入防盗中心的对话框
-	MyAdapter myAdapter;//适配器
+	MyAdapter myAdapter;// 适配器
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +67,11 @@ public class MainActivity extends Activity {
 					}
 
 					break;
+				case 8:
+					Intent intent = new Intent(MainActivity.this,
+							SettingCenter.class);
+					startActivity(intent);
+					break;
 
 				default:
 					break;
@@ -74,11 +79,11 @@ public class MainActivity extends Activity {
 			}
 		});
 	}
-	
+
 	/**
-	 * 通知重新取数据,放在onResume,是因为外圈activity在onstop---onrestart()---onstart()---onresume().
-	 * 和内圈onpause()-----onResume()..在界面重新显示时都会启动onResume()方法.内圈是另一个活动覆盖后又快速回来显示
-	 * 本活动时会调用.所以要防止在这种情形,所以写在onResume()方法里.
+	 * 通知重新取数据,放在onResume,是因为外圈activity在onstop---onrestart()---onstart()---
+	 * onresume(). 和内圈onpause()-----onResume()..在界面重新显示时都会启动onResume()方法.
+	 * 内圈是另一个活动覆盖后又快速回来显示 本活动时会调用.所以要防止在这种情形,所以写在onResume()方法里.
 	 * 当活动重新回来时,去通知GridView重新去取数据
 	 */
 	@Override
@@ -237,11 +242,13 @@ public class MainActivity extends Activity {
 			gv_icon.setImageResource(icons[position]);
 			gv_name.setText(names[position]);
 
-			if (position == 0) {//只判断手机防盗的位置
-				//判断是否存在新的手机防盗名
-				if (!TextUtils.isEmpty(SPTools.getString(getApplicationContext(), MyConstants.NAME, ""))) {
-					//有新的手机防盗名
-					gv_name.setText(SPTools.getString(getApplicationContext(), MyConstants.NAME, ""));
+			if (position == 0) {// 只判断手机防盗的位置
+				// 判断是否存在新的手机防盗名
+				if (!TextUtils.isEmpty(SPTools.getString(
+						getApplicationContext(), MyConstants.NAME, ""))) {
+					// 有新的手机防盗名
+					gv_name.setText(SPTools.getString(getApplicationContext(),
+							MyConstants.NAME, ""));
 				}
 			}
 

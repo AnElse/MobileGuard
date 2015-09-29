@@ -57,6 +57,7 @@
         </activity>
         <activity android:name="com.itanelse.mobileguard.activities.FriendsActivity" >
         </activity>
+        <activity  android:name="com.itanelse.mobileguard.activities.SettingCenter"></activity>
 
         <receiver android:name="com.itanelse.mobileguard.receiver.BootReceiver" >
             <intent-filter>

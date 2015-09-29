@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <declare-styleable name="item_settingcenter">
+    <declare-styleable name="SettingCenterItemView">
 
         <!--
              Defines whether a child is limited to draw inside of its bounds or not.
