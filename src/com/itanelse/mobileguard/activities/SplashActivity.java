@@ -29,6 +29,7 @@ import android.os.SystemClock;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationSet;
 import android.view.animation.RotateAnimation;
 import android.view.animation.ScaleAnimation;
@@ -103,19 +104,30 @@ public class SplashActivity extends Activity {
 		initData();// 初始化数据
 		initAnimation();// 初始化动画
 		
-		if (SPTools.getBoolean(getApplicationContext(), MyConstants.AUTOUPDATE, false)) {
-			//true, 那么进行版本的更新
-			checkVersion();// 检查版本
-		}else{
-			//直接进入主界面
-			new Thread(){
-				public void run() {
-					SystemClock.sleep(3000);
-					mhandler.obtainMessage(LOAD_MAIN).sendToTarget();
-				};
-			}.start();
-		}
+		//一开始动画，就应该干耗时的业务（网络，本地数据初始化，数据的拷贝等）
+		// if (SPTools.getBoolean(getApplicationContext(),
+		// MyConstants.AUTOUPDATE, false)) {
+		// //true, 那么进行版本的更新
+		// checkVersion();// 检查版本
+		// }
+
+		//耗时的功能封装，只要耗时的处理，都放到此方法
+		timeInitialization();// 如下：
 	}
+	
+	/**
+	 * 耗时的功能封装，只要耗时的处理，都放到此方法
+	 */
+	private void timeInitialization(){
+		//一开始动画，就应该干耗时的业务（网络，本地数据初始化，数据的拷贝等）
+		if (SPTools.getBoolean(getApplicationContext(), MyConstants.AUTOUPDATE, false)) {
+			//true 自动更新
+			// 检测服务器的版本
+			checkVersion();
+		}
+		//增加自己的耗时功能处理
+	}
+		
 
 	/**
 	 * 是否下载新版本的更新下载对话框
@@ -404,6 +416,35 @@ public class SplashActivity extends Activity {
 		as.addAnimation(aa);// 添加渐变动画
 		as.addAnimation(ra);// 添加旋转动画
 		as.addAnimation(sa);// 添加比例动画
+		
+		as.setAnimationListener(new AnimationListener() {
+			
+			@Override
+			public void onAnimationStart(Animation animation) {
+				// TODO Auto-generated method stub
+				//耗时的功能统一处理封装
+				timeInitialization();
+			}
+			
+			@Override
+			public void onAnimationRepeat(Animation animation) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			/**
+			 * 动画播放完成后
+			 */
+			@Override
+			public void onAnimationEnd(Animation animation) {
+				if (!SPTools.getBoolean(getApplicationContext(), MyConstants.AUTOUPDATE, false)) {
+					//如果没有设置自动更新,那么直接进入主界面
+					loadMain();
+				}else{
+					//界面更新的衔接由更新版本完成,这里不做处理
+				}
+			}
+		});
 
 		rl_splash_root.startAnimation(as);// 三种动画效果一起显示
 	}

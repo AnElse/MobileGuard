@@ -38,11 +38,15 @@ public class SettingCenterView extends LinearLayout {
 				"title");
 		contents = content.split("-");
 		tv_title.setText(title);
+		
+		//设置初始化的颜色为红色
+		tv_content.setText(contents[0]);
+		tv_content.setTextColor(Color.RED);
 	}
 
 	/**
-	 * 由于复选框是自定义View的内部组件,所以外面想访问,要设置公有的方法让外部访问 
-	 * 设置item里面checkbox的状态
+	 * 由于复选框是自定义View的内部组件,所以外面想访问,要设置公有的方法让外部访问 设置item里面checkbox的状态
+	 * 
 	 * @param isChecked
 	 */
 	public void setCheck(boolean isChecked) {
@@ -51,6 +55,7 @@ public class SettingCenterView extends LinearLayout {
 
 	/**
 	 * 获取item里checkbox的状态
+	 * 
 	 * @return
 	 */
 	public boolean isChecked() {
@@ -70,12 +75,13 @@ public class SettingCenterView extends LinearLayout {
 	 * 初始化事件
 	 */
 	private void initEvent() {
-		/*
-		 * item.setOnClickListener(new OnClickListener() {
-		 * 
-		 * @Override public void onClick(View v) {
-		 * cb_check.setChecked(!cb_check.isChecked()); } });
-		 */
+		item.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				cb_check.setChecked(!cb_check.isChecked());
+			}
+		});
 
 		// 当选择状态发生变化时触发是事件
 		cb_check.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -87,6 +93,7 @@ public class SettingCenterView extends LinearLayout {
 					tv_content.setText(contents[1]);
 					tv_content.setTextColor(Color.GREEN);
 				} else {
+					//设置未选中的颜色
 					tv_content.setText(contents[0]);
 					tv_content.setTextColor(Color.RED);
 				}
