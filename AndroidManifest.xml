@@ -25,6 +25,8 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+    <uses-permission android:name="android.permission.WRITE_CALL_LOG"/>
 
     <application
         android:allowBackup="true"
@@ -57,7 +59,14 @@
         </activity>
         <activity android:name="com.itanelse.mobileguard.activities.FriendsActivity" >
         </activity>
-        <activity  android:name="com.itanelse.mobileguard.activities.SettingCenter"></activity>
+        <activity android:name="com.itanelse.mobileguard.activities.SettingCenter" >
+        </activity>
+        <activity android:name="com.itanelse.mobileguard.activities.TelSmsSafeActivity" >
+        </activity>
+        <activity android:name="com.itanelse.mobileguard.activities.CalllogsActivity" >
+        </activity>
+        <activity android:name="com.itanelse.mobileguard.activities.SmslogsActivity" >
+        </activity>
 
         <receiver android:name="com.itanelse.mobileguard.receiver.BootReceiver" >
             <intent-filter>

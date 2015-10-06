@@ -67,6 +67,12 @@ public class MainActivity extends Activity {
 					}
 
 					break;
+				case 1: {
+					Intent intent = new Intent(MainActivity.this,
+							TelSmsSafeActivity.class);
+					startActivity(intent);
+					break;
+				}
 				case 8:
 					Intent intent = new Intent(MainActivity.this,
 							SettingCenter.class);
