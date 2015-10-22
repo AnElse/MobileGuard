@@ -54,6 +54,14 @@ public class MainActivity extends Activity {
 					int position, long id) {
 				// 判断点击位置
 				switch (position) {
+				case 7:// 高级工具
+				{
+					// 打开设置通讯卫士的界面
+					Intent atool = new Intent(MainActivity.this,
+							AToolActivity.class);
+					startActivity(atool);
+					break;
+				}
 				case 0:// 手机防盗
 						// 先进行判断是否已经设置过密码,如果已经设置过密码,那么进入自定义登陆对话框
 					if (!TextUtils.isEmpty(SPTools.getString(

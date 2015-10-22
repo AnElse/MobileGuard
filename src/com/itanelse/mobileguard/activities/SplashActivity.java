@@ -2,6 +2,8 @@ package com.itanelse.mobileguard.activities;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -21,6 +23,7 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.res.AssetManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -88,7 +91,7 @@ public class SplashActivity extends Activity {
 				loadMain();// 进入主界面
 				break;
 			case SHOWUPDATADIALOG:// 显示更新版本的对话框
-				showUpdateDailog();//alt+left:返回该方法的调用者
+				showUpdateDailog();// alt+left:返回该方法的调用者
 				break;
 			default:
 				break;
@@ -102,31 +105,98 @@ public class SplashActivity extends Activity {
 		initView();// 初始化界面中的组件
 		initData();// 初始化数据
 		initAnimation();// 初始化动画
-		
-		//一开始动画，就应该干耗时的业务（网络，本地数据初始化，数据的拷贝等）
+		// 拷贝归属地数据库
+		copyDB("address.db");
+
+		// 一开始动画，就应该干耗时的业务（网络，本地数据初始化，数据的拷贝等）
 		// if (SPTools.getBoolean(getApplicationContext(),
 		// MyConstants.AUTOUPDATE, false)) {
 		// //true, 那么进行版本的更新
 		// checkVersion();// 检查版本
 		// }
 
-		//耗时的功能封装，只要耗时的处理，都放到此方法
+		// 耗时的功能封装，只要耗时的处理，都放到此方法
 		timeInitialization();// 如下：
 	}
-	
+
+	/**
+	 * 把assert目录下文件拷贝到本地(/data/data/包名/files)
+	 * 
+	 * @param dbName
+	 *            assert目录下的文件名
+	 * @throws IOException
+	 */
+	private void copyDB(final String dbName) {
+		new Thread() {
+			public void run() {
+
+				// 判断文件是否存在，如果存在不需要拷贝
+				File file = new File("/data/data/" + getPackageName()
+						+ "/files/" + dbName);
+				if (file.exists()) {// 文件存在
+					return;
+				}
+				// 文件的拷贝
+				try {
+					filecopy(dbName);
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			};
+		}.start();
+	}
+
+	protected void filecopy(String dbName) throws IOException {
+		// io流来拷贝
+		// 输入流
+		AssetManager assets = getAssets();
+		// 读取assert的文件，转换成InputStream
+		InputStream is = assets.open(dbName);
+
+		// 输出流
+		FileOutputStream fos = openFileOutput(dbName, MODE_PRIVATE);
+
+		// 流的拷贝
+		// 定义缓冲区大小10k
+		byte[] buffer = new byte[10240];
+
+		// 读取的长度
+		int len = is.read(buffer);
+		int counts = 1;
+		// 循环读取,如果读到文件尾部，返回-1
+		while (len != -1) {
+			// 把缓冲区的数据写到输出流
+			fos.write(buffer, 0, len);
+			// 每次100k的时候刷新缓冲区的数据到文件中
+			if (counts % 10 == 0) {
+				fos.flush();// 刷新缓冲区
+			}
+			// 继续读取
+			len = is.read(buffer);
+			counts++;
+		}
+		fos.flush();
+		fos.close();
+		is.close();
+	}
+
 	/**
 	 * 耗时的功能封装，只要耗时的处理，都放到此方法
 	 */
-	private void timeInitialization(){
-		//一开始动画，就应该干耗时的业务（网络，本地数据初始化，数据的拷贝等）
-		if (SPTools.getBoolean(getApplicationContext(), MyConstants.AUTOUPDATE, false)) {
-			//true 自动更新
+	private void timeInitialization() {
+		// 一开始动画，就应该干耗时的业务（网络，本地数据初始化，数据的拷贝等）
+		if (SPTools.getBoolean(getApplicationContext(), MyConstants.AUTOUPDATE,
+				false)) {
+			// true 自动更新
 			// 检测服务器的版本
 			checkVersion();
 		}
-		//增加自己的耗时功能处理
+		// 增加自己的耗时功能处理
 	}
-		
 
 	/**
 	 * 是否下载新版本的更新下载对话框
@@ -415,32 +485,33 @@ public class SplashActivity extends Activity {
 		as.addAnimation(aa);// 添加渐变动画
 		as.addAnimation(ra);// 添加旋转动画
 		as.addAnimation(sa);// 添加比例动画
-		
+
 		as.setAnimationListener(new AnimationListener() {
-			
+
 			@Override
 			public void onAnimationStart(Animation animation) {
 				// TODO Auto-generated method stub
-				//耗时的功能统一处理封装
+				// 耗时的功能统一处理封装
 				timeInitialization();
 			}
-			
+
 			@Override
 			public void onAnimationRepeat(Animation animation) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			/**
 			 * 动画播放完成后
 			 */
 			@Override
 			public void onAnimationEnd(Animation animation) {
-				if (!SPTools.getBoolean(getApplicationContext(), MyConstants.AUTOUPDATE, false)) {
-					//如果没有设置自动更新,那么直接进入主界面
+				if (!SPTools.getBoolean(getApplicationContext(),
+						MyConstants.AUTOUPDATE, false)) {
+					// 如果没有设置自动更新,那么直接进入主界面
 					loadMain();
-				}else{
-					//界面更新的衔接由更新版本完成,这里不做处理
+				} else {
+					// 界面更新的衔接由更新版本完成,这里不做处理
 				}
 			}
 		});
