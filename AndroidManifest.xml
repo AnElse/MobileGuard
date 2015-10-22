@@ -59,7 +59,7 @@
         </activity>
         <activity android:name="com.itanelse.mobileguard.activities.FriendsActivity" >
         </activity>
-        <activity android:name="com.itanelse.mobileguard.activities.SettingCenter" >
+        <activity android:name="com.itanelse.mobileguard.activities.SettingCenterActivity" >
         </activity>
         <activity android:name="com.itanelse.mobileguard.activities.TelSmsSafeActivity" >
         </activity>
@@ -78,6 +78,7 @@
         </service>
         <service android:name="com.itanelse.mobileguard.service.LocationService" >
         </service>
+        <service android:name="com.itanelse.mobileguard.service.TelSmsBlackService"></service>
 
         <receiver
             android:name="com.itanelse.mobileguard.receiver.MyDeviceAdminReceiver"

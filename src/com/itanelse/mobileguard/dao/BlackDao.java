@@ -160,4 +160,23 @@ public class BlackDao {
 		// 关闭数据库
 		db.close();
 	}
+
+	/**
+	 * @param phone
+	 *            电话号码
+	 * @return 拦截模式 : 1 短信 2 电话 3 全部 0 不拦截
+	 */
+	public int getMode(String phone) {
+		SQLiteDatabase database = blackDB.getReadableDatabase();
+		Cursor cursor = database.rawQuery("select " + BlackTable.MODE
+				+ " from " + BlackTable.BLACKTABLE + " where "
+				+ BlackTable.PHONE + "=?", new String[] { phone });
+		int mode = 0;
+		if (cursor.moveToNext()) {// 是黑名单号码
+			mode = cursor.getInt(0);// 取出对应号码的拦截模式
+		} else {
+			mode = 0;// 不是黑名单号码
+		}
+		return mode;
+	}
 }

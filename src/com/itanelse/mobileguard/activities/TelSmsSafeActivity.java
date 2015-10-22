@@ -47,7 +47,7 @@ public class TelSmsSafeActivity extends Activity {
 	private ProgressBar pb_loading;
 	private BlackDao dao;// 黑名单的数据封装对象
 	private MyAdapter adapter;
-	private final int MOREDATASCOUNTS = 20;// 分批加载的数据个数
+	private final int MOREDATASCOUNTS = 7;// 分批加载的数据个数
 	private List<BlackBean> moreDatas;
 	private PopupWindow pw;
 	private View contentView;
@@ -143,9 +143,8 @@ public class TelSmsSafeActivity extends Activity {
 							SmslogsActivity.class);
 					// 启动联系人的界面，并获取结果
 					startActivityForResult(intent, 1);
-
 					break;
-
+					
 				default:
 					break;
 				}
@@ -267,7 +266,13 @@ public class TelSmsSafeActivity extends Activity {
 				myAdapter = new MyAdapter();
 				lv_safenumbers.setAdapter(myAdapter);
 				dialog.dismiss();
-
+				// 有数据
+				// 隐藏progressbar
+				pb_loading.setVisibility(View.GONE);
+				// 显示listView
+				lv_safenumbers.setVisibility(View.VISIBLE);
+				// 隐藏没有数据
+				tv_nodata.setVisibility(View.GONE);
 			}
 		});
 		ab.setView(view);
@@ -348,6 +353,12 @@ public class TelSmsSafeActivity extends Activity {
 					if (datas.size() != 0) {// 分批加载数据，没有更多数据
 						Toast.makeText(getApplicationContext(), "没有更多数据", 1)
 								.show();
+						// 隐藏progressbar
+						pb_loading.setVisibility(View.GONE);
+						// 显示listView
+						lv_safenumbers.setVisibility(View.VISIBLE);
+						// 隐藏没有数据
+						tv_nodata.setVisibility(View.GONE);
 						return;
 					}
 					// 没有数据
@@ -370,10 +381,25 @@ public class TelSmsSafeActivity extends Activity {
 
 	private class MyAdapter extends BaseAdapter {
 
+		private int size;
+
 		@Override
 		public int getCount() {
 			// TODO Auto-generated method stub
-			return datas.size();
+			size = datas.size();
+			if (size == 0) {
+				// 显示没有数据
+				// 没有数据
+				tv_nodata.setVisibility(View.VISIBLE);
+				// 隐藏progressbar
+				pb_loading.setVisibility(View.GONE);
+				// 隐藏listView
+				lv_safenumbers.setVisibility(View.GONE);
+				return size;
+			} else {
+				// 显示数据
+				return size;
+			}
 		}
 
 		@Override
@@ -446,16 +472,19 @@ public class TelSmsSafeActivity extends Activity {
 									dao.delete(bean.getPhone());// 取出当前行数据里的黑名单号码
 
 									// 删除容器中对应的数据
-									datas.remove(position);
+									datas.remove(position);// 20的position为19
 
-									// 通知界面更新数据，让用户看到删除数据不存在
-									adapter.notifyDataSetChanged();// 只是让listview
-																	// 重新去当前显示位置的数据
+									if (datas.size() < 7) {
+										initData();// 分批加载更多的数据
+									} else {
+										// 通知界面更新数据，让用户看到删除数据不存在
+										adapter.notifyDataSetChanged();// 只是让listview
+																		// 重新去当前显示位置的数据
+									}
 								}
 							});
 					ab.setNegativeButton("点错了", null);// 自动关闭对话框
 					ab.show();
-
 				}
 			});
 			return convertView;

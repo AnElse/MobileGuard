@@ -18,6 +18,7 @@
     </com.itanelse.mobileguard.view.SettingCenterView>
     
         <com.itanelse.mobileguard.view.SettingCenterView
+        android:id="@+id/sciv_setting_center_blackservice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         itanelse:content="黑名单拦截设置已经关闭-黑名单拦截已经打开"

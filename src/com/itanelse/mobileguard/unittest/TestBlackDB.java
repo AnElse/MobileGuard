@@ -11,7 +11,7 @@ import android.test.AndroidTestCase;
 public class TestBlackDB extends AndroidTestCase {
 	public void testAddBlackNumber() {
 		BlackDao dao = new BlackDao(getContext());
-		for (int i = 0; i < 200; i++) {
+		for (int i = 0; i < 20; i++) {
 			dao.add("1234567" + i, BlackTable.SMS);
 		}
 	}

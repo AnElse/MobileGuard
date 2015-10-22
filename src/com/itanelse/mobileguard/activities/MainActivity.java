@@ -75,7 +75,7 @@ public class MainActivity extends Activity {
 				}
 				case 8:
 					Intent intent = new Intent(MainActivity.this,
-							SettingCenter.class);
+							SettingCenterActivity.class);
 					startActivity(intent);
 					break;
 

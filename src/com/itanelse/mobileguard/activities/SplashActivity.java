@@ -94,7 +94,6 @@ public class SplashActivity extends Activity {
 				break;
 			}
 		}
-
 	};
 
 	@Override
