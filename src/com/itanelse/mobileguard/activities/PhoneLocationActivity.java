@@ -86,7 +86,7 @@ public class PhoneLocationActivity extends Activity {
 			// 震动的效果
 			Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
 			// 震动的参数设置
-			vibrator.vibrate(new long[] { 200, 300, 300, 200, 500, 100 }, 3);
+			vibrator.vibrate(new long[] { 200, 300, 300, 200 }, 3);
 
 			tv_location.setText("归属地：");
 			return;

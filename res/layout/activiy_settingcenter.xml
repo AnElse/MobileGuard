@@ -14,15 +14,23 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         itanelse:content="自动更新已经关闭-自动更新已经打开"
-        itanelse:title= "自动更新设置">
+        itanelse:title="自动更新设置" >
     </com.itanelse.mobileguard.view.SettingCenterView>
-    
-        <com.itanelse.mobileguard.view.SettingCenterView
+
+    <com.itanelse.mobileguard.view.SettingCenterView
         android:id="@+id/sciv_setting_center_blackservice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        itanelse:content="黑名单拦截设置已经关闭-黑名单拦截已经打开"
+        itanelse:content="黑名单拦截设置已经关闭-黑名单拦截设置已经打开"
         itanelse:title="黑名单拦截设置" >
+    </com.itanelse.mobileguard.view.SettingCenterView>
+    
+    <com.itanelse.mobileguard.view.SettingCenterView
+        android:id="@+id/sciv_setting_center_comingphonelocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        itanelse:content="来电归属地设置已经关闭-来电归属地设置已经打开"
+        itanelse:title="来电归属地设置" >
     </com.itanelse.mobileguard.view.SettingCenterView>
 
 </LinearLayout>
