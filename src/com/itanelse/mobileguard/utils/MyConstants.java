@@ -11,4 +11,7 @@ public interface MyConstants {
 	String NAME = "name";//防盗功能的名称
 	String ISCHECK = "isCheck";//复选框被选中
 	String AUTOUPDATE = "autoupdate";//自动更新
+	String TOASTX = "toastx";//自定义土司x坐标
+	String TOASTY = "toasty";//自定义土司y坐标
+	String STYLEBGINDEX = "stylelocation";
 }
